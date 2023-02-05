@@ -1,18 +1,25 @@
-public class LinkedList {
-    private static int size;
-    class Node {
-        int data;
-        Node next;
-        Node(int data) {
-            this.data = data;
-            this.next = null;
-            size++;
-        }
-    }
-    Node START, NODE;
+public class LinkedList implements List{
+    private int data;
+    private LinkedList next;
 
-    void add(int data) {
-        Node New = new Node(data), ptr = START;
+    private static int size;
+    private LinkedList START, NODE;
+    
+
+    LinkedList() {
+        this.data = 0;
+        this.next = null;
+    }
+
+    LinkedList(int data) {
+        this.data = data;
+        this.next = null;
+        size++;
+    }
+    
+    @Override
+    public void add(int data) {
+        LinkedList New = new LinkedList(data), ptr = START;
         if(START == null) START = New;
         else {
             while(ptr.next != null) ptr = ptr.next;
@@ -21,9 +28,10 @@ public class LinkedList {
         NODE = START;
     }
 
-    void delete(int pos) {
+    @Override
+    public void delete(int pos) {
         if(pos < this.Size()){
-            Node del, ptr = START;
+            LinkedList del, ptr = START;
             if(pos == 0) {
                 START = ptr.next;
                 return;
@@ -35,9 +43,10 @@ public class LinkedList {
         }
     }
 
-    void insertAt(int pos, int data) {
+    @Override
+    public void insertAt(int pos, int data) {
         if(pos < this.Size()){
-            Node New = new Node(data), ptr = START;
+            LinkedList New = new LinkedList(data), ptr = START;
             if(pos == 0) {
                 New.next = START;
                 START = New;
@@ -49,13 +58,22 @@ public class LinkedList {
         }
         NODE = START;
     }
-    void push(int data) {
-        Node New = new Node(data), ptr = START;
-        while(ptr.next != null) ptr = ptr.next;
-        ptr.next = New;
-    } 
-    void display() {
-        Node ptr = START;
+
+
+    @Override
+    public int pop() {
+        LinkedList ptr = START;
+        while(ptr.next.next != null) ptr = ptr.next;
+        int data = ptr.next.data;
+        ptr.next = null;
+        NODE = START;
+        size--;
+        return data;  
+    }
+    
+    @Override
+    public void display() {
+        LinkedList ptr = START;
         while(ptr != null) {
             System.out.print(ptr.data + "\t");
             ptr = ptr.next;
@@ -63,37 +81,21 @@ public class LinkedList {
         System.out.println();
     }
     
-    boolean hasNext() {
+    @Override
+    public int Size() {
+        return size;
+    }
+    
+    public boolean hasNext() {
         return NODE != null;
     }
 
-    int next() {
+    public int next() {
+        if(NODE == null) NODE = START;
         int data = NODE.data;
         NODE = NODE.next;
         return data;
     }
     
-    int Size() {
-        return size;
-    }
-    public static void main(String[] args) {
-        LinkedList m = new LinkedList();
-        for (int i = 0; i < 5; i++) {
-            m.add(i + 1);
-        }
-        m.display();
-        m.delete(2);
-        m.display();
-        m.insertAt(0, 8);
-        m.insertAt(1, 10);
-        m.display();
-        m.push(9);
-        
-        while (m.hasNext()) {
-            System.out.print(m.next() + "\t");
-        } 
-        m.delete(0);
-        System.out.println();
-        m.display();
-    }
+    
  }
