@@ -4,18 +4,23 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class ChatBot { 
-    static Stack<ChatBot> stack = new Stack<>();
-    Scanner scan = new Scanner(System.in);
+    protected static Stack <ChatBot> stack = new Stack<>();
+    protected Scanner scan = new Scanner(System.in);
+
     public static void main(String[] args) {
         ChatBot chatbot = new ChatBot();
+        System.out.println("\t\t\t\t\t\t\tWelcome to XYZ telecom service.\n");
+        System.out.print("\tDear Customer, We've provided you the all kind of our services via this 24/7 system and also customers who are all using our service across the world,");
+        System.out.println(" we've introduced this system to your language. \n");
         stack.push(chatbot);
         chatbot.start();
     }
-    void start() {
+
+    public void start() {
         int choice;
         System.out.println("Languages avalaible are:");
         System.out.println("1.Tamil\n2.English\n0-EXIT\n");
-        System.out.print("Enter your Option: ");
+        System.out.print("Please, Enter your Option: ");
         choice = scan.nextInt();
 
         switch(choice) {
@@ -26,22 +31,35 @@ public class ChatBot {
                     english.start();
                     break;
             }
-            case 0: System.exit(0);
+            case 0: stop();
         }
+    }
+
+    public static void stop() {
+        System.exit(0);
     }
 }
 
 class LanguageMenu extends ChatBot{
     public void start() {
         System.out.println("1.Balance\n2.Recharge\n3.OtherServices\n9-Back\n0-Exit\n");
-        System.out.print("Enter Your Option: ");
+        System.out.print("Kindly, Enter Your Option: ");
         int choice = scan.nextInt();
         switch(choice) {
             case 1: {
                 System.out.println("Your Primary balance : Rs 10.32\nYour Secondary Balance : Rs 25");
                 System.out.println("Validity: 02-02-2023");
-                ChatBot back = stack.peek();
-                back.start();
+                System.out.println("9-Back");
+                System.out.println("0-EXIT");
+                System.out.print("Enter your Option: ");
+                choice = scan.nextInt();
+                
+                switch(choice) {
+                    case 9: ChatBot back = stack.peek();
+                            back.start();
+                            break;
+                    case 0: stop();
+                }
                 break;
             }
             case 2: {
@@ -71,7 +89,7 @@ class LanguageMenu extends ChatBot{
 class Recharge extends ChatBot {
     public void start() {
         System.out.println("1.265=UL call+1GB/D,28D\n2.479=UL call+1.5GB/D,56D\n3.299=UL call+1.5GB/D28D\n4.549=UL call+25GB/D,56D\n9-Back\n0-EXIT\n");
-        System.out.print("Enter your Option: ");
+        System.out.print("Kindly, Enter your Option: ");
         int choice = scan.nextInt();
         do{
             switch(choice) {
@@ -79,11 +97,12 @@ class Recharge extends ChatBot {
                 case 2:
                 case 3:
                 case 4: {
-                    System.out.println("Your Recharge is done.");
-                    System.out.println("9-Back");
-                    System.out.println("0-EXIT");
-                    System.out.print("Enter your Option: ");
-                    choice = scan.nextInt();
+                    System.out.println("1.UPI");
+                    System.out.println("2.Recharge Coupon");
+                    System.out.print("Enter your option: "); int n = scan.nextInt();
+                    RechargePayments rechargePayments = new RechargePayments(n);
+                    stack.push(rechargePayments);
+                    rechargePayments.makePayment();
                     break;
                 }
                 case 9: {
@@ -98,11 +117,42 @@ class Recharge extends ChatBot {
         } while (choice != 0);
 
     }
+
+    class RechargePayments extends Recharge{
+        private int option;
+        RechargePayments(int option) {
+            this.option = option;
+        }
+
+        private void makePayment() {
+            do {
+                switch(this.option) {
+                    case 1: 
+                    case 2:
+                    case 3:
+                        System.out.println("Your recharge is successful. Thanks for using our services."); 
+                        System.out.println("9-Back");
+                        System.out.println("0-EXIT");
+                        System.out.print("Kindly, Enter your Option: ");
+                        this.option = scan.nextInt();
+                        break;
+                    case 9: {
+                        stack.pop();
+                        stack.pop();
+                        ChatBot back = stack.peek();
+                        back.start();
+                        break;
+                    }
+                    case 0: System.exit(0);
+                }
+            } while(this.option != 0);
+        }
+    }
 }
 class OtherServices extends ChatBot {
     public void start() {
         System.out.println("1.Broadband\n2.DTH\n9-Back\n0-EXIT\n");
-        System.out.print("Enter your Option: ");
+        System.out.print("Kindly, Enter your Option: ");
         int choice = scan.nextInt();
         do{
 
@@ -110,7 +160,7 @@ class OtherServices extends ChatBot {
                 case 1: 
                 case 2:
                 case 3: {
-                    System.out.println("Your Service is provided.");
+                    System.out.println("Your service is provided. Thanks for using our service.");
                     System.out.println("9-Back");
                     System.out.println("0-EXIT");
                     System.out.print("Enter your Option: ");
