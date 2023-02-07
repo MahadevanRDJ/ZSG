@@ -19,7 +19,7 @@ public class RadixSort {
 		}
         System.out.println(list);
 		
-		for (int exp = 1; max / (int) Math.pow(10, exp) > 0 ; exp ++) {			
+		for (int exp = 0; max / (int) Math.pow(10, exp) > 0 ; exp ++) {			
 			sort(list, exp);
 		}
 		
