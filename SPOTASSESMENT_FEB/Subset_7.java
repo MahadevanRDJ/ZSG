@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Subset {
+public class Subset_7 {
     public static void main(String[] args) {
-        Subset obj = new Subset();
+        Subset_7 obj = new Subset_7();
         
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the number of elements : ");
